@@ -9,6 +9,7 @@ input {
 }
 table {
 	border: 1px solid black;
+	box-shadow: 10px 10px 5px #888888;
 }
 td {
 	padding-left: 10px;
@@ -27,7 +28,6 @@ td {
 }
 .tdinput {
 	padding-left: 10px;
-	width: 150px;
 }
 .tdtop {
 	padding-top: 10px;
@@ -59,4 +59,10 @@ td {
 .labelReadOnly {
 	background: darkgray;
 	background-color: lightgray;
+}
+.tdheader {
+	background: darkblue;
+	color: white;
+	font-weight: bold;
+	border-bottom: 1px solid black;
 }
