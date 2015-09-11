@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="css/aviation.css">
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+	<table cellspacing="0" cellpadding="3" width="320px">
+		<tr>
+			<td class="tdtop" width="150px">Airspeed</td>
+			<td class="tdunit tdtop" width="100px">kts</td>
+			<td class="tdinput tdtop"><input type="text" class="numeric" maxlength="3" id="airspeed" value="140"/></td>
+		</tr>
+		<tr>
+			<td>GS</td>
+			<td class="tdunit">kts</td>
+			<td class="tdinput"><input type="text" class="numeric" maxlength="3" id="gs" value="140"/></td>
+		</tr>
+		<tr>
+			<td>Altitude</td>
+			<td class="tdunit">ft</td>
+			<td class="tdinput"><input type="text" class="numeric numeric5digits" maxlength="6" id="altitude" value="3.000"/></td>
+		</tr>
+		<tr>
+			<td class="tdbottom">Elevation</td>
+			<td class="tdunit tdbottom" >ft</td>
+			<td class="tdinput tdbottom"><input type="text" class="numeric numeric5digits" maxlength="6" id="elevation" value="200"/></td>
+		</tr>
+		<tr class="labelReadOnly">
+			<td class="tdtop">VS</td>
+			<td class="tdtop tdunitreadonly">fpm</td>
+			<td class="tdtop tdinput"><input type="text" class="numeric numeric5digits readOnly" maxlength="6" id="vs" readonly/></td>
+		</tr>
+		<tr class="labelReadOnly">
+			<td>Time to land</td>
+			<td class="tdunitreadonly">min</td>
+			<td class="tdinput"><input type="text" class="time readOnly" id="timeToLand" readonly/></td>
+		</tr>
+		<tr class="labelReadOnly">
+			<td class="tdbottom">Distance</td>
+			<td class="tdbottom tdunitreadonly">nm</td>
+			<td class="tdbottom tdinput"><input type="text" class="numeric readOnly" id="distance" readonly/></td>
+		</tr>
+	</table>
+	<script>
+		$('#gs').bind("change keyup",calculateVS);
+		$('#altitude').bind("change keyup",calculateTimeToLand);
+		$('#altitude').bind("change keyup",calculateDistanceToLand);
+		$('#elevation').bind("change keyup",calculateTimeToLand);
+		$('#elevation').bind("change keyup",calculateDistanceToLand);
+		
+		$("input[type='text']").click(function () {
+		   $(this).select();
+		});
+		
+		$('.numeric5digits').bind('change keyup', function (event) { 
+			 if ( $(this).val().length > 0 ) {
+				 var n = parseInt($(this).val().replace(/\D/g,''),10);
+				 $(this).val(n.toLocaleString('pt-BR'));
+			 }
+		});
+		
+		$('.numeric').on('input', function (event) { 
+			this.value = this.value.replace(/[^0-9]/g, '');
+		});
+		
+		function calculateVS() {
+			var gs = $('#gs').val();
+			var vs = Number(gs) * 5;
+			if ( vs > 0 )  {
+				$('#vs').val(vs.toLocaleString('pt-BR'));
+			} else {
+				$('#vs').val('');
+			}
+		}
+		
+		function calculateTimeToLand() {
+			var altitude  = Number($('#altitude').val().replace(/\./g,''));
+			var elevation = Number($('#elevation').val().replace(/\./g,''));
+			var vs        = Number($('#vs').val());
+			var gs        = Number($('#gs').val());
+			
+			if ( altitude > 0 && (altitude > elevation) && gs > 0 ) {
+				var timeInMinutes = (Number(altitude) - Number(elevation)) / Number(vs);
+				var minutes = parseInt(timeInMinutes);
+				var seconds = parseInt((timeInMinutes - parseInt(timeInMinutes)) * 60);
+				if ( seconds >= 60 ) {
+					minutes = minutes + 1;
+					seconds = seconds - 60;
+				}
+				var time = ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+				$('#timeToLand').val(time);
+			} else {
+				$('#timeToLand').val('');
+			}
+		}
+		
+		function calculateDistanceToLand() {
+			var altitude  = Number($('#altitude').val().replace(/\./g,''));
+			var elevation = Number($('#elevation').val().replace(/\./g,''));
+			var vs        = Number($('#vs').val());
+			var gs        = Number($('#gs').val());
+			
+			if ( altitude > 0 && (altitude > elevation) && gs > 0 ) {
+				var timeInMinutes = (Number(altitude) - Number(elevation)) / Number(vs);
+				var distanceToLand = (Number(gs) * timeInMinutes) / 60;
+				$('#distance').val(distanceToLand.toFixed(1));
+			} else {
+				$('#distance').val('');
+			}
+		}
+		
+		calculateVS();
+		calculateTimeToLand();
+		calculateDistanceToLand();
+	</script>
+</body>
+</html>
