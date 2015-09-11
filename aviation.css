@@ -1,0 +1,62 @@
+body {
+	font-family: Calibri;
+	font-size: 15px;
+	margin:20px 20px 20px 20px;
+}
+input {
+	font-family: Arial;
+	width: 80px;
+}
+table {
+	border: 1px solid black;
+}
+td {
+	padding-left: 10px;
+}
+.tdunit {
+	color: lightgray;
+	font-family: Courier New;
+	font-size: 15px;
+	font-weight: bold;
+}
+.tdunitreadonly {
+	color: white;
+	font-family: Courier New;
+	font-size: 15px;
+	font-weight: bold;
+}
+.tdinput {
+	padding-left: 10px;
+	width: 150px;
+}
+.tdtop {
+	padding-top: 10px;
+}
+.tdbottom {
+	padding-bottom: 10px;
+}
+.numeric {
+	text-align: right;
+	font-size: 15px;
+	font-weight: bold;
+	padding-right: 5px;
+}
+.numeric5digits {
+}
+.time {
+	text-align: right;
+	font-size: 15px;
+	font-weight: bold;
+	padding-right: 5px;
+}
+.readOnly {
+	padding: 3px 3px 3px 5px;
+	border: none;
+	background: darkgray;
+	background-color: lightgray;
+	font-weight: bold;
+}
+.labelReadOnly {
+	background: darkgray;
+	background-color: lightgray;
+}
