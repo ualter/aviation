@@ -1,59 +1,148 @@
 <!doctype html>
+<!--
+
+	Sources:
+	http://www.airliners.net/aviation-forums/tech_ops/read.main/40042/  (Descending Formula)
+	
+-->
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="css/aviation.css">
   <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
 <body>
-	<table cellspacing="0" cellpadding="3" width="320px">
+	<table style='border:0px; width: 100%; box-shadow:0px 0px 0px #888888'>
 		<tr>
-			<td class="tdtop" width="150px">Airspeed</td>
-			<td class="tdunit tdtop" width="100px">kts</td>
-			<td class="tdinput tdtop"><input type="text" class="numeric" maxlength="3" id="airspeed" value="140"/></td>
+			<td valign="top">
+				
+				<table cellspacing="0" cellpadding="3" id="tbLanding" style="display:none;">
+					<tr>
+						<td class="tdheader" colspan="3" align="center">Landing</td>
+					</tr>
+					<!--
+					<tr>
+						<td class="tdtop" width="200px">Airspeed</td>
+						<td class="tdunit tdtop" width="100px">kts</td>
+						<td class="tdinput tdtop"><input type="text" class="numeric" maxlength="3" id="landingAirspeed" value="140"/></td>
+					</tr>
+					-->
+					<tr>
+						<td width="150px" class="tdtop">GS</td>
+						<td width="20px" class="tdinput tdtop"><input type="text" class="numeric" maxlength="3" id="landingGs" value="140"/></td>
+						<td width="50px" class="tdunit tdtop">kts</td>
+					</tr>
+					<tr>
+						<td>Altitude</td>
+						<td class="tdinput"><input type="text" class="numeric numeric5digits" maxlength="6" id="landingAltitude" value="3.000"/></td>
+						<td class="tdunit">ft</td>
+					</tr>
+					<tr>
+						<td class="tdbottom">Elevation</td>
+						<td class="tdinput tdbottom"><input type="text" class="numeric numeric5digits" maxlength="6" id="landingElevation" value="200"/></td>
+						<td class="tdunit tdbottom" >ft</td>
+					</tr>
+					<tr class="labelReadOnly">
+						<td class="tdtop">VSpeed rate</td>
+						<td class="tdtop tdinput"><input type="text" class="numeric numeric5digits readOnly" maxlength="6" id="landingVs" readonly/></td>
+						<td class="tdtop tdunitreadonly">fpm</td>
+					</tr>
+					<tr class="labelReadOnly">
+						<td>Time to land</td>
+						<td class="tdinput"><input type="text" class="time readOnly" id="landingtimeToLand" readonly/></td>
+						<td class="tdunitreadonly">min</td>
+					</tr>
+					<tr class="labelReadOnly">
+						<td class="tdbottom">Distance start descend</td>
+						<td class="tdbottom tdinput"><input type="text" class="numeric readOnly" id="landingDistance" readonly/></td>
+						<td class="tdbottom tdunitreadonly">nm</td>
+					</tr>
+				</table>
+			</td>
+			<td valign="top">
+				<table cellspacing="0" cellpadding="3" id="tbDescending" style="display:none;">
+					<tr>
+						<td class="tdheader" colspan="3" align="center">Descending</td>
+					</tr>
+					<tr>
+						<td width="150px" class="tdtop">Current FL</td>
+						<td width="50px" class="tdtop tdinput"><input type="text" class="numeric numeric5digits" maxlength="6" id="descendingCurrentFL" value="20.000"/></td>
+						<td width="50px" class="tdtop tdunit">ft</td>
+					</tr>
+					<tr>
+						<td>Target FL</td>
+						<td class="tdinput"><input type="text" class="numeric numeric5digits" maxlength="6" id="descendingTargetFL" value="5.000"/></td>
+						<td class="tdunit">ft</td>
+					</tr>
+					<tr>
+						<td class="tdbottom">GS</td>
+						<td class="tdbottom tdinput"><input type="text" class="numeric" maxlength="3" id="descendingGs" value="400"/></td>
+						<td class="tdbottom tdunit">kts</td>
+					</tr>
+					<tr class="labelReadOnly">
+						<td class="tdtop">Top of Descend (TOD)</td>
+						<td class="tdtop tdinput"><input type="text" class="numeric readOnly" id="descendingDistance" readonly/></td>
+						<td class="tdtop tdunitreadonly">nm</td>
+					</tr>
+					<tr class="labelReadOnly">
+						<td class="tdbottom">Rate descend</td>
+						<td class="tdbottom tdinput"><input type="text" class="numeric numeric5digits readOnly" maxlength="6" id="descendingVs" readonly/></td>
+						<td class="tdbottom tdunitreadonly">fpm</td>
+					</tr>
+				</table>
+			</td>
+			<td valign="top">
+				<table cellspacing="0" cellpadding="3" style="font-size:13px;display:none;" id="tbUnits">
+					<tr>
+						<td class="tdheader" colspan="3" align="center">Unit Conversions</td>
+					</tr>
+					<tr>
+						 <td>1 knot</td><td>=</td><td>1.852000 km/hr</td>
+					</tr>
+					<tr>	
+						 <td>1 knot </td><td>=</td><td>185200/109728 ft/sec =1.687810 ft/sec</td>
+					</tr>
+					<tr>	 
+						 <td>1 knot </td><td>=</td><td>1852000/1609344 mph = 1.150779 mph</td>
+					</tr>
+					<tr>	 
+						 <td>1 mph  </td><td>=</td><td>0.868976 knot</td>
+					</tr>
+					<tr>	 
+						 <td>1 mph  </td><td>=</td><td>1.609344 km/hr</td>
+					</tr>
+					<tr>	 
+						 <td>1 mph  </td><td>=</td><td>1.466667 ft/sec</td>
+					</tr>
+					<tr>	 
+						 <td>1 km/hr</td><td>=</td><td>0.539968 knot</td>
+					</tr>
+					<tr>	 
+						 <td>1 km/hr</td><td>=</td><td>0.911344 ft/sec</td>
+					</tr>
+					<tr>	 
+						 <td>1 km/hr</td><td>=</td><td>0.621371 mph</td>
+					</tr>
+				</table>
+			</td>
 		</tr>
-		<tr>
-			<td>GS</td>
-			<td class="tdunit">kts</td>
-			<td class="tdinput"><input type="text" class="numeric" maxlength="3" id="gs" value="140"/></td>
-		</tr>
-		<tr>
-			<td>Altitude</td>
-			<td class="tdunit">ft</td>
-			<td class="tdinput"><input type="text" class="numeric numeric5digits" maxlength="6" id="altitude" value="3.000"/></td>
-		</tr>
-		<tr>
-			<td class="tdbottom">Elevation</td>
-			<td class="tdunit tdbottom" >ft</td>
-			<td class="tdinput tdbottom"><input type="text" class="numeric numeric5digits" maxlength="6" id="elevation" value="200"/></td>
-		</tr>
-		<tr class="labelReadOnly">
-			<td class="tdtop">VS</td>
-			<td class="tdtop tdunitreadonly">fpm</td>
-			<td class="tdtop tdinput"><input type="text" class="numeric numeric5digits readOnly" maxlength="6" id="vs" readonly/></td>
-		</tr>
-		<tr class="labelReadOnly">
-			<td>Time to land</td>
-			<td class="tdunitreadonly">min</td>
-			<td class="tdinput"><input type="text" class="time readOnly" id="timeToLand" readonly/></td>
-		</tr>
-		<tr class="labelReadOnly">
-			<td class="tdbottom">Distance</td>
-			<td class="tdbottom tdunitreadonly">nm</td>
-			<td class="tdbottom tdinput"><input type="text" class="numeric readOnly" id="distance" readonly/></td>
-		</tr>
-	</table>
+	</table>	
+	
 	<script>
-		$('#gs').bind("change keyup",calculateVS);
-		$('#altitude').bind("change keyup",calculateTimeToLand);
-		$('#altitude').bind("change keyup",calculateDistanceToLand);
-		$('#elevation').bind("change keyup",calculateTimeToLand);
-		$('#elevation').bind("change keyup",calculateDistanceToLand);
+		$('#landingGs').bind("change keyup",calculateVS);
+		$('#landingAltitude').bind("change keyup",calculateTimeToLand);
+		$('#landingAltitude').bind("change keyup",calculateDistanceToLand);
+		$('#landingElevation').bind("change keyup",calculateTimeToLand);
+		$('#landingElevation').bind("change keyup",calculateDistanceToLand);
+		
+		$('#descendingCurrentFL').bind("change keyup",calculateStartDistanceDescend);
+		$('#descendingTargetFL').bind("change keyup",calculateStartDistanceDescend);
+		$('#descendingGs').bind("change keyup",calculateRateDescend);
 		
 		$("input[type='text']").click(function () {
 		   $(this).select();
 		});
 		
-		$('.numeric5digits').bind('change keyup', function (event) { 
+		$('.numeric5digits').bind('change', function (event) { 
 			 if ( $(this).val().length > 0 ) {
 				 var n = parseInt($(this).val().replace(/\D/g,''),10);
 				 $(this).val(n.toLocaleString('pt-BR'));
@@ -64,24 +153,43 @@
 			this.value = this.value.replace(/[^0-9]/g, '');
 		});
 		
-		function calculateVS() {
-			var gs = $('#gs').val();
-			var vs = Number(gs) * 5;
-			if ( vs > 0 )  {
-				$('#vs').val(vs.toLocaleString('pt-BR'));
+		function calculateStartDistanceDescend() {
+			var currentFL = Number($('#descendingCurrentFL').val().replace(/\./g,''));
+			var targetFL  = Number($('#descendingTargetFL').val().replace(/\./g,''));
+			
+			var diff = ((currentFL - targetFL) / 1000) * 3;
+			$('#descendingDistance').val(Number(diff).toLocaleString('pt-BR'));
+		}
+		
+		function calculateRateDescend() {
+			var descendingGs = $('#descendingGs').val().replace(/\./g,'');
+			var rate = Number(descendingGs) / 2;
+			if ( rate > 0 )  {
+			    rate = String(rate) + "0";
+				$('#descendingVs').val(Number(rate).toLocaleString('pt-BR'));
 			} else {
-				$('#vs').val('');
+				$('#descendingVs').val('');
+			}
+		}
+		
+		function calculateVS() {
+			var landingGs = $('#landingGs').val();
+			var landingVs = Number(landingGs) * 5;
+			if ( landingVs > 0 )  {
+				$('#landingVs').val(landingVs.toLocaleString('pt-BR'));
+			} else {
+				$('#landingVs').val('');
 			}
 		}
 		
 		function calculateTimeToLand() {
-			var altitude  = Number($('#altitude').val().replace(/\./g,''));
-			var elevation = Number($('#elevation').val().replace(/\./g,''));
-			var vs        = Number($('#vs').val());
-			var gs        = Number($('#gs').val());
+			var landingAltitude  = Number($('#landingAltitude').val().replace(/\./g,''));
+			var landingElevation = Number($('#landingElevation').val().replace(/\./g,''));
+			var landingVs        = Number($('#landingVs').val().replace(/\./g,''));
+			var landingGs        = Number($('#landingGs').val().replace(/\./g,''));
 			
-			if ( altitude > 0 && (altitude > elevation) && gs > 0 ) {
-				var timeInMinutes = (Number(altitude) - Number(elevation)) / Number(vs);
+			if ( landingAltitude > 0 && (landingAltitude > landingElevation) && landingGs > 0 ) {
+				var timeInMinutes = (Number(landingAltitude) - Number(landingElevation)) / Number(landingVs);
 				var minutes = parseInt(timeInMinutes);
 				var seconds = parseInt((timeInMinutes - parseInt(timeInMinutes)) * 60);
 				if ( seconds >= 60 ) {
@@ -89,30 +197,42 @@
 					seconds = seconds - 60;
 				}
 				var time = ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
-				$('#timeToLand').val(time);
+				$('#landingtimeToLand').val(time);
 			} else {
-				$('#timeToLand').val('');
+				$('#landingtimeToLand').val('');
 			}
 		}
 		
 		function calculateDistanceToLand() {
-			var altitude  = Number($('#altitude').val().replace(/\./g,''));
-			var elevation = Number($('#elevation').val().replace(/\./g,''));
-			var vs        = Number($('#vs').val());
-			var gs        = Number($('#gs').val());
+			var landingAltitude  = Number($('#landingAltitude').val().replace(/\./g,''));
+			var landingElevation = Number($('#landingElevation').val().replace(/\./g,''));
+			var landingVs        = Number($('#landingVs').val().replace(/\./g,''));
+			var landingGs        = Number($('#landingGs').val().replace(/\./g,''));
 			
-			if ( altitude > 0 && (altitude > elevation) && gs > 0 ) {
-				var timeInMinutes = (Number(altitude) - Number(elevation)) / Number(vs);
-				var distanceToLand = (Number(gs) * timeInMinutes) / 60;
-				$('#distance').val(distanceToLand.toFixed(1));
+			if ( landingAltitude > 0 && (landingAltitude > landingElevation) && landingGs > 0 ) {
+				var timeInMinutes = (Number(landingAltitude) - Number(landingElevation)) / Number(landingVs);
+				var distanceToLand = (Number(landingGs) * timeInMinutes) / 60;
+				$('#landingDistance').val(distanceToLand.toFixed(1));
 			} else {
-				$('#distance').val('');
+				$('#landingDistance').val('');
 			}
 		}
 		
 		calculateVS();
 		calculateTimeToLand();
 		calculateDistanceToLand();
+		calculateStartDistanceDescend();
+		calculateRateDescend();
+		
+		$(document).ready(function(){
+				$("#tbLanding").fadeIn(1000);
+				$("#tbDescending").fadeIn(1500);
+				$("#tbUnits").fadeIn(2000);
+				/*$("#tbLanding").animate({
+					left: '250px',
+					opacity: '1',
+				});*/
+		});
 	</script>
 </body>
 </html>
